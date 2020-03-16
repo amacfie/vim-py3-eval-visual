@@ -16,7 +16,7 @@ def repl_exec(script, globals=None, locals=None):
                 mode="exec",
             ), globals, locals)
         # then we eval the last one
-        # does every object has a __repr__?
+        # what if object doesn't have a __repr__?
         return repr(eval(compile(
             ast.Expression(body=stmts[-1].value),
             filename="<ast>",
