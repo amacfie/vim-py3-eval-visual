@@ -12,6 +12,7 @@ endfunction
 function! s:get_output()
   let snippet = s:get_visual_selection()
   return py3eval(snippet)
+endfunction
 
 " run selection
 function! Py3_run_visual()
