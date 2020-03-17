@@ -17,6 +17,7 @@ def repl_exec(script, globals=None, locals=None):
             ), globals, locals)
         # then we eval the last one
         # what if object doesn't have a __repr__?
+
         return repr(eval(compile(
             ast.Expression(body=__vim_py3_eval_visual__stmts[-1].value),
             filename="<ast>",
@@ -36,7 +37,8 @@ __vim_py3_eval_visual__out = repl_exec(
     vim.eval('l:snippet'), globals(), globals()
 )
 _EOF_
-  return py3eval("__vim_py3_eval_visual__out")
+  let l:vimscript_result = py3eval("__vim_py3_eval_visual__out")
+  return l:vimscript_result
 endfunction
 
 
@@ -50,10 +52,10 @@ function! s:get_visual_selection()
   return join(lines, "\n")
 endfunction
 
-" run selection echo representation of evaluation on next line
+" run selection and echo representation of evaluation
 function! Py3_run_visual()
   let l:out = s:convert()
-  if l:out
+  if l:out != v:null
     echo l:out
   endif
 endfunction
