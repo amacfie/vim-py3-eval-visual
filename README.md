@@ -9,3 +9,6 @@ Multiline selections are supported.
 
 State is preserved as in `:python3` commands.
 
+If you want certain modules to always be available, just put
+`python3 import module_name` in your `$MYVIMRC` file.
+
