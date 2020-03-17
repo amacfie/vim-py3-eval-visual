@@ -26,6 +26,7 @@ def repl_exec(script, globals=None, locals=None):
     else:
         # otherwise we just execute the entire code
         exec(script, globals, locals)
+        return None
 _EOF_
 
 function! s:convert()
@@ -37,8 +38,8 @@ __vim_py3_eval_visual__out = repl_exec(
     vim.eval('l:snippet'), globals(), globals()
 )
 _EOF_
-  let l:vimscript_result = py3eval("__vim_py3_eval_visual__out")
-  return l:vimscript_result
+  let l:result = py3eval("__vim_py3_eval_visual__out")
+  return l:result
 endfunction
 
 
@@ -55,7 +56,7 @@ endfunction
 " run selection and echo representation of evaluation
 function! Py3_run_visual()
   let l:out = s:convert()
-  if l:out != v:null
+  if l:out != "None" && l:out != v:null
     echo l:out
   endif
 endfunction
@@ -64,10 +65,11 @@ xnoremap <leader>m :<c-h><c-h><c-h><c-h><c-h>call Py3_run_visual()<CR>
 " run selection and write representation of evaluation on next line
 function! Py3_append_visual()
   let l:out = s:convert()
-  if l:out
+  if l:out != "None" && l:out != v:null
     let l:lines = split(l:out, "\n")
     call append(getpos("'>")[1], l:lines)
-    call cursor(getpos("'>")[1] + len(l:lines), 0)
+    call cursor(getpos("'>")[1] + 1, 0)
+    "call cursor(getpos("'>")[1] + len(l:lines), 0)
   endif
 endfunction
 xnoremap <leader>M :<c-h><c-h><c-h><c-h><c-h>call Py3_append_visual()<CR>
