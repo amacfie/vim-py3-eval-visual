@@ -1,6 +1,8 @@
 python3 << _EOF_
 import ast
 
+__vim_py3_eval_visual__out = None
+
 # https://stackoverflow.com/a/47130538
 def repl_exec(script, globals=None, locals=None):
     __vim_py3_eval_visual__stmts = list(ast.iter_child_nodes(ast.parse(script)))
@@ -39,6 +41,8 @@ __vim_py3_eval_visual__out = repl_exec(
 )
 _EOF_
   let l:result = py3eval("__vim_py3_eval_visual__out")
+  " reset the global variable
+  python3 __vim_py3_eval_visual__out = None
   return l:result
 endfunction
 
