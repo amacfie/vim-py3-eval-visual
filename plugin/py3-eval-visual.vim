@@ -3,35 +3,38 @@ import ast
 
 # https://stackoverflow.com/a/47130538
 def repl_exec(script, globals=None, locals=None):
-    stmts = list(ast.iter_child_nodes(ast.parse(script)))
-    if not stmts:
+    __vim_py3_eval_visual__stmts = list(ast.iter_child_nodes(ast.parse(script)))
+    if not __vim_py3_eval_visual__stmts:
         return None
-    if isinstance(stmts[-1], ast.Expr):
+    if isinstance(__vim_py3_eval_visual__stmts[-1], ast.Expr):
         # the last one is an expression and we will try to return the results
         # so we first execute the previous statements
-        if len(stmts) > 1:
+        if len(__vim_py3_eval_visual__stmts) > 1:
             exec(compile(
-                ast.Module(body=stmts[:-1]),
+                ast.Module(body=__vim_py3_eval_visual__stmts[:-1]),
                 filename="<ast>",
                 mode="exec",
             ), globals, locals)
         # then we eval the last one
         # what if object doesn't have a __repr__?
         return repr(eval(compile(
-            ast.Expression(body=stmts[-1].value),
+            ast.Expression(body=__vim_py3_eval_visual__stmts[-1].value),
             filename="<ast>",
             mode="eval",
         ), globals, locals))
     else:
         # otherwise we just execute the entire code
-        return exec(script, globals, locals)
+        exec(script, globals, locals)
 _EOF_
 
 function! s:convert()
   let l:snippet = s:get_visual_selection()
   python3 << _EOF_
 import vim
-__vim_py3_eval_visual__out = repl_exec(vim.eval('l:snippet'))
+# don't use local (function) scope
+__vim_py3_eval_visual__out = repl_exec(
+    vim.eval('l:snippet'), globals(), globals()
+)
 _EOF_
   return py3eval("__vim_py3_eval_visual__out")
 endfunction
