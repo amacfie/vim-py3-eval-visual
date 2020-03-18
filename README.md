@@ -1,4 +1,4 @@
-Defines two key sequences:
+Defines two mappings:
 
 * `<Plug>py3_eval_visual_run_visual`: Evaluate selection (visual mode) or
   line (normal mode) with the Python 3 interpreter and echo the result (if any)
