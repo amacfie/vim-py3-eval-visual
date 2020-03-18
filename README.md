@@ -1,20 +1,20 @@
 Defines two mappings:
 
-* `<Plug>py3_eval_visual_run_visual`: Evaluate selection (visual mode) or
+* `<Plug>run_python3_echo`: Evaluate selection (visual mode) or
   line (normal mode) with the Python 3 interpreter and echo the result (if any)
-* `<Plug>py3_eval_visual_append_visual`: Evaluate selection (visual mode) or
+* `<Plug>run_python3_append`: Evaluate selection (visual mode) or
   line (normal mode) with the Python 3 interpreter and put the result (if any)
   on the next line in the buffer
 
 To use, define custom mappings e.g.
 ```vim
-xmap <leader>m <Plug>py3_eval_visual_run_visual
-nmap <leader>m <Plug>py3_eval_visual_run_visual
-xmap <leader><cr> <Plug>py3_eval_visual_append_visual
-nmap <leader><cr> <Plug>py3_eval_visual_append_visual
+xmap <leader>m <Plug>run_python3_echo
+nmap <leader>m <Plug>run_python3_echo
+xmap <leader><cr> <Plug>run_python3_append
+nmap <leader><cr> <Plug>run_python3_append
 ```
 
-Multiline selections are supported.
+Multiline visual selections are supported.
 
 State is preserved as in `:python3` commands.
 

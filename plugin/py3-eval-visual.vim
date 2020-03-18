@@ -1,15 +1,15 @@
-if exists("g:loaded_py3_eval_visual") || v:version < 700
+if exists("g:loaded_run_python3") || v:version < 700
   finish
 endif
-let g:loaded_py3_eval_visual = 1
+let g:loaded_run_python3 = 1
 
 python3 << _EOF_
 import ast
 
-__py3_eval_visual__out = None
+__run_python3__out = None
 
 # https://stackoverflow.com/a/47130538
-def __py3_eval_visual__repl_exec(script, globals=None, locals=None):
+def __run_python3__repl_exec(script, globals=None, locals=None):
     stmts = list(ast.iter_child_nodes(ast.parse(script)))
     if not stmts:
         return None
@@ -19,7 +19,7 @@ def __py3_eval_visual__repl_exec(script, globals=None, locals=None):
         if len(stmts) > 1:
             exec(compile(
                 ast.Module(body=stmts[:-1]),
-                filename="<input>",
+                filename="<code>",
                 mode="exec",
             ), globals, locals)
         # then we eval the last one
@@ -27,12 +27,12 @@ def __py3_eval_visual__repl_exec(script, globals=None, locals=None):
 
         return repr(eval(compile(
             ast.Expression(body=stmts[-1].value),
-            filename="<input>",
+            filename="<code>",
             mode="eval",
         ), globals, locals))
     else:
         # otherwise we just execute the entire code
-        exec(compile(script, "<input>", "exec"), globals, locals)
+        exec(compile(script, "<code>", "exec"), globals, locals)
         return None
 _EOF_
 
@@ -41,13 +41,13 @@ function! s:convert()
   python3 << _EOF_
 import vim
 # don't use local (function) scope
-__py3_eval_visual__out = __py3_eval_visual__repl_exec(
+__run_python3__out = __run_python3__repl_exec(
     vim.eval('l:snippet'), globals(), globals()
 )
 _EOF_
-  let l:result = py3eval("__py3_eval_visual__out")
+  let l:result = py3eval("__run_python3__out")
   " reset the global variable
-  python3 __py3_eval_visual__out = None
+  python3 __run_python3__out = None
   return l:result
 endfunction
 
@@ -70,8 +70,8 @@ function! s:py3_run_visual()
   endif
 endfunction
 
-xnoremap <Plug>py3_eval_visual_run_visual :<c-u>call <SID>py3_run_visual()<CR>
-nnoremap <Plug>py3_eval_visual_run_visual V:<c-u>call <SID>py3_run_visual()<CR>
+xnoremap <Plug>run_python3_echo :<c-u>call <SID>py3_run_visual()<CR>
+nnoremap <Plug>run_python3_echo V:<c-u>call <SID>py3_run_visual()<CR>
 
 " run selection and write representation of evaluation on next line
 function! s:py3_append_visual()
@@ -84,6 +84,6 @@ function! s:py3_append_visual()
   endif
 endfunction
 
-xnoremap <Plug>py3_eval_visual_append_visual :<c-u>call <SID>py3_append_visual()<CR>
-nnoremap <Plug>py3_eval_visual_append_visual V:<c-u>call <SID>py3_append_visual()<CR>
+xnoremap <Plug>run_python3_append :<c-u>call <SID>py3_append_visual()<CR>
+nnoremap <Plug>run_python3_append V:<c-u>call <SID>py3_append_visual()<CR>
 
