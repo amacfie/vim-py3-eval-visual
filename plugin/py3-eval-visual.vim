@@ -65,7 +65,7 @@ function! s:py3_run_visual()
   endif
 endfunction
 
-xnoremap <unique> <Plug>py3_eval_visual_run_visual :<c-u>call <SID>py3_run_visual()<CR>
+xnoremap <Plug>py3_eval_visual_run_visual :<c-u>call <SID>py3_run_visual()<CR>
 
 " run selection and write representation of evaluation on next line
 function! s:py3_append_visual()
@@ -78,5 +78,5 @@ function! s:py3_append_visual()
   endif
 endfunction
 
-xnoremap <unique> <Plug>py3_eval_visual_append_visual :<c-u>call <SID>py3_append_visual()<CR>
+xnoremap <Plug>py3_eval_visual_append_visual :<c-u>call <SID>py3_append_visual()<CR>
 
