@@ -58,14 +58,14 @@ function! s:get_visual_selection()
 endfunction
 
 " run selection and echo representation of evaluation
-function! s:py3_run_visual()
+function! g:py3_run_visual()
   let l:out = s:convert()
   if l:out != "None" && l:out != v:null
     echo l:out
   endif
 endfunction
 
-xnoremap <unique> <Plug>py3_eval_visual_run_visual :<c-u>call <SID>py3_run_visual()<CR>
+xnoremap <Plug>py3_eval_visual_run_visual :<c-u>call g:py3_run_visual()<CR>
 
 " run selection and write representation of evaluation on next line
 function! s:py3_append_visual()
