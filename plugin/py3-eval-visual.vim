@@ -1,19 +1,24 @@
+if exists("g:loaded_py3_eval_visual") || v:version < 700
+  finish
+endif
+let g:loaded_py3_eval_visual = 1
+
 python3 << _EOF_
 import ast
 
-__vim_py3_eval_visual__out = None
+__py3_eval_visual__out = None
 
 # https://stackoverflow.com/a/47130538
-def repl_exec(script, globals=None, locals=None):
-    __vim_py3_eval_visual__stmts = list(ast.iter_child_nodes(ast.parse(script)))
-    if not __vim_py3_eval_visual__stmts:
+def __py3_eval_visual__repl_exec(script, globals=None, locals=None):
+    stmts = list(ast.iter_child_nodes(ast.parse(script)))
+    if not stmts:
         return None
-    if isinstance(__vim_py3_eval_visual__stmts[-1], ast.Expr):
+    if isinstance(stmts[-1], ast.Expr):
         # the last one is an expression and we will try to return the results
         # so we first execute the previous statements
-        if len(__vim_py3_eval_visual__stmts) > 1:
+        if len(stmts) > 1:
             exec(compile(
-                ast.Module(body=__vim_py3_eval_visual__stmts[:-1]),
+                ast.Module(body=stmts[:-1]),
                 filename="<ast>",
                 mode="exec",
             ), globals, locals)
@@ -21,7 +26,7 @@ def repl_exec(script, globals=None, locals=None):
         # what if object doesn't have a __repr__?
 
         return repr(eval(compile(
-            ast.Expression(body=__vim_py3_eval_visual__stmts[-1].value),
+            ast.Expression(body=stmts[-1].value),
             filename="<ast>",
             mode="eval",
         ), globals, locals))
@@ -36,13 +41,13 @@ function! s:convert()
   python3 << _EOF_
 import vim
 # don't use local (function) scope
-__vim_py3_eval_visual__out = repl_exec(
+__py3_eval_visual__out = __py3_eval_visual__repl_exec(
     vim.eval('l:snippet'), globals(), globals()
 )
 _EOF_
-  let l:result = py3eval("__vim_py3_eval_visual__out")
+  let l:result = py3eval("__py3_eval_visual__out")
   " reset the global variable
-  python3 __vim_py3_eval_visual__out = None
+  python3 __py3_eval_visual__out = None
   return l:result
 endfunction
 
