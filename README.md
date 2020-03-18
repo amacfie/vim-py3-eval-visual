@@ -1,9 +1,9 @@
 Defines two mappings:
 
 * `<Plug>run_python3_echo`: Evaluate selection (visual mode) or
-  line (normal mode) with the Python 3 interpreter and echo the result (if any)
+  line (normal mode) with `:python3` and echo the result (if any)
 * `<Plug>run_python3_append`: Evaluate selection (visual mode) or
-  line (normal mode) with the Python 3 interpreter and put the result (if any)
+  line (normal mode) with `:python3` and put the result (if any)
   on the next line in the buffer
 
 To use, define custom mappings e.g.
