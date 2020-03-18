@@ -19,7 +19,7 @@ def __py3_eval_visual__repl_exec(script, globals=None, locals=None):
         if len(stmts) > 1:
             exec(compile(
                 ast.Module(body=stmts[:-1]),
-                filename="<ast>",
+                filename="<input>",
                 mode="exec",
             ), globals, locals)
         # then we eval the last one
@@ -27,12 +27,12 @@ def __py3_eval_visual__repl_exec(script, globals=None, locals=None):
 
         return repr(eval(compile(
             ast.Expression(body=stmts[-1].value),
-            filename="<ast>",
+            filename="<input>",
             mode="eval",
         ), globals, locals))
     else:
         # otherwise we just execute the entire code
-        exec(script, globals, locals)
+        exec(compile(script, "<input>", "exec"), globals, locals)
         return None
 _EOF_
 
