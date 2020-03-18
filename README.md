@@ -1,9 +1,15 @@
-Two visual mode keybindings:
+Defines two key sequences:
 
-* `<leader>m`: Evaluate selection with the Python 3 interpreter and echo
-  the result (if any)
-* `<leader>M`: Evaluate selection with the Python 3 interpreter and put
-  the result (if any) on the next line in the buffer
+* `<Plug>py3_eval_visual_run_visual`: Evaluate selection with the Python 3
+  interpreter and echo the result (if any)
+* `<Plug>py3_eval_visual_append_visual`: Evaluate selection with the Python 3
+  interpreter and put the result (if any) on the next line in the buffer
+
+To use, define custom visual mode mappings e.g.
+```vim
+xnoremap <leader>m <Plug>py3_eval_visual_run_visual
+xnoremap <leader>M <Plug>py3_eval_visual_append_visual
+```
 
 Multiline selections are supported.
 

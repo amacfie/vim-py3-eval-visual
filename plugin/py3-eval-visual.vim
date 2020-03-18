@@ -64,7 +64,9 @@ function! Py3_run_visual()
     echo l:out
   endif
 endfunction
-xnoremap <leader>m :<c-h><c-h><c-h><c-h><c-h>call Py3_run_visual()<CR>
+
+noremap <unique> <script> <Plug>py3_eval_visual_run_visual <SID>run_visual
+noremap <SID>run_visual :<c-h><c-h><c-h><c-h><c-h>call Py3_run_visual()<CR>
 
 " run selection and write representation of evaluation on next line
 function! Py3_append_visual()
@@ -76,5 +78,7 @@ function! Py3_append_visual()
     "call cursor(getpos("'>")[1] + len(l:lines), 0)
   endif
 endfunction
-xnoremap <leader>M :<c-h><c-h><c-h><c-h><c-h>call Py3_append_visual()<CR>
+
+noremap <unique> <script> <Plug>py3_eval_visual_append_visual <SID>append_visual
+noremap <SID>append_visual :<c-h><c-h><c-h><c-h><c-h>call Py3_append_visual()<CR>
 
