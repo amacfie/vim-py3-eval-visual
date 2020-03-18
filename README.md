@@ -8,7 +8,7 @@ Defines two key sequences:
 To use, define custom visual mode mappings e.g.
 ```vim
 xmap <leader>m <Plug>py3_eval_visual_run_visual
-xmap <leader>M <Plug>py3_eval_visual_append_visual
+xmap <leader><cr> <Plug>py3_eval_visual_append_visual
 ```
 
 Multiline selections are supported.
