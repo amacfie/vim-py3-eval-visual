@@ -17,11 +17,13 @@ def __run_python3__repl_exec(script, globals=None, locals=None):
         # the last one is an expression and we will try to return the results
         # so we first execute the previous statements
         if len(stmts) > 1:
-            exec(compile(
-                ast.Module(body=stmts[:-1]),
-                filename="<code>",
-                mode="exec",
-            ), globals, locals)
+            module = ast.parse("")
+            module.body = stmts[:-1]
+            exec(
+                compile(module, filename="<code>", mode="exec"),
+                globals,
+                locals,
+            )
         # then we eval the last one
         # what if object doesn't have a __repr__?
 
