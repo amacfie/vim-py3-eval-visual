@@ -23,5 +23,6 @@ If you want certain modules to always be available, just put
 
 ## Requirements
 
-* Your (Neo)vim must have python3 support: `:echo has('python3')`
+* Your (Neo)vim must have python3 support: `:echo has('python3')`. See
+  <https://neovim.io/doc/user/provider.html> for Neovim instructions.
 
